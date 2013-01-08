@@ -25,7 +25,7 @@ var defaults = {
     callback: function() {}
 };
     
-var round = function(number, decimals) {
+function round(number, decimals) {
     return Math.round(number*Math.pow(10,decimals))/Math.pow(10,decimals);
 };
 
