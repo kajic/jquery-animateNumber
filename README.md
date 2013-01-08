@@ -17,10 +17,11 @@ $("...").animateNumber(number, callback);
 $("...").animateNumber(number, options, callback);
 ```
 
-Inject a rule that sets the hight of the #test element:
+Animate the number in the element selected by #numberContainer to the
+current unix timestamp:
 
 ```javascript
-$(".numberContainer").animateNumber(Date.now());
+$("#numberContainer").animateNumber(Date.now());
 ```
 
 ### Number container data attributes
