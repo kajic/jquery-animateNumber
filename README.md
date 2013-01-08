@@ -1,7 +1,7 @@
 jquery-animateNumber
 ====================
 
-Used on elements that contain a number (integer or float) to
+Use on elements that contain a number (integer or float) to
 animate the number to a new value over a short period of time.
 
 ### Usage
@@ -9,11 +9,11 @@ animate the number to a new value over a short period of time.
 Call signatures:
 
 ```javascript
-$("...").animateNumber(number);
+$("...").animateNumber(newNumber);
 
-$("...").animateNumber(number, callback);
+$("...").animateNumber(newNumber, callback);
 
-$("...").animateNumber(number, options, callback);
+$("...").animateNumber(newNumber, options, callback);
 ```
 
 Animate the number in the element selected by #numberContainer to the
