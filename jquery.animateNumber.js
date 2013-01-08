@@ -29,6 +29,10 @@ function round(number, decimals) {
     return Math.round(number*Math.pow(10,decimals))/Math.pow(10,decimals);
 };
 
+function isInt(number) {
+    return !!new String(number).match(/^-?[\d]+$/);
+};
+
 $.fn.animateNumber = function(value, options, callback) {
     if (typeof options === "function") {
         callback = options;
@@ -42,9 +46,9 @@ $.fn.animateNumber = function(value, options, callback) {
         if (round(value, options.floatEndDecimals) == round(initialValue, options.floatEndDecimals)) {
             return;
         }
-        var type = container.data("type") || "float",
-        stepDecimals, endDecimals, 
-        defaultStepDecimals, defaultEndDecimals;
+        var type = container.data("type") || (isInt($(this).text()) ? "int" : "float"),
+            stepDecimals, endDecimals, 
+            defaultStepDecimals, defaultEndDecimals;
         if (type == "int") {
             defaultStepDecimals = options.intStepDecimals;
             defaultEndDecimals = options.intEndDecimals;
