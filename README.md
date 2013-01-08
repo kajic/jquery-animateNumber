@@ -23,10 +23,18 @@ Inject a rule that sets the hight of the #test element:
 $(".numberContainer").animateNumber(Date.now());
 ```
 
+### Number container data attributes
+
+**type** (default=int): int or float
+
+**stepDecimals** (optional): Number of decimals to show while animating.
+
+**endDecimals** (optional): Number of decimals to show after animation.
+
 ### Options
 **duration** (default=5000): Animation duration in miliseconds.
 
-**easing** (default="swing"): Animation easing, use any jquery animation easing.
+**easing** (default=swing): Animation easing, use any jquery animation easing.
 
 **animateOpacity** (default=true): Animate number container opacity while animating the number.
 
