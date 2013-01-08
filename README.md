@@ -1,9 +1,8 @@
 jquery-animateNumber
 ====================
 
-Used on elements that have a number as content (integer or float) to
+Used on elements that contain a number (integer or float) to
 animate the number to a new value over a short period of time.
-
 
 ### Usage
 
