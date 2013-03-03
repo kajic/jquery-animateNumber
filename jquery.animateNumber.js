@@ -27,11 +27,11 @@ var defaults = {
     
 function round(number, decimals) {
     return Math.round(number*Math.pow(10,decimals))/Math.pow(10,decimals);
-};
+}
 
 function isInt(number) {
-    return !!new String(number).match(/^-?[\d]+$/);
-};
+    return /^-?[\d]+$/.test(number);
+}
 
 $.fn.animateNumber = function(value, options, callback) {
     if (typeof options === "function") {
