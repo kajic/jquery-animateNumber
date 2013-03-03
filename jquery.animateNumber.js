@@ -89,4 +89,4 @@ $.fn.animateNumber = function(value, options, callback) {
     });
 };
 
-})( jQuery, window, document );
+})( jQuery );
