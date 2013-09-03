@@ -36,7 +36,16 @@
 	function formatCurrency(number, options) {
 		if (!isNaN(number)) {
 			var whole = Math.floor(number);
-			return options.currencyIndicator + whole.toLocaleString() + options.currencyDecimalSeparator + (number - whole).toFixed(2).split('.')[1];
+			var formattedVal;
+
+			// This check is necessary because some browsers preserve 0 decimals if they
+			// are present in toLocaleString() and others do not.
+			if (whole.toLocaleString().indexOf(options.currencyDecimalSeparator) < 0) {
+				formattedVal = options.currencyIndicator + whole.toLocaleString() + options.currencyDecimalSeparator + (number - whole).toFixed(2).split('.')[1];
+			} else {
+				formattedVal = options.currencyIndicator + parseFloat(number.toLocaleString()).toFixed(2);
+			}
+			return formattedVal;
 		}
 
 	}
