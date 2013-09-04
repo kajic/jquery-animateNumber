@@ -29,25 +29,31 @@
 		callback: function() {}
 	};
 
+	function formatNumber(number, options, decimals) {
+		if (options.format === 'currency') {
+			return formatCurrency(number, options);
+		} else {
+			return round(number, decimals);
+		}
+	}
+
 	function round(number, decimals) {
 		return Math.round(number*Math.pow(10,decimals))/Math.pow(10,decimals);
 	}
 
 	function formatCurrency(number, options) {
-		if (!isNaN(number)) {
-			var whole = Math.floor(number);
-			var formattedVal;
+		if (isNaN(number)) { return; }
 
-			// This check is necessary because some browsers preserve 0 decimals if they
-			// are present in toLocaleString() and others do not.
-			if (whole.toLocaleString().indexOf(options.currencyDecimalSeparator) < 0) {
-				formattedVal = options.currencyIndicator + whole.toLocaleString() + options.currencyDecimalSeparator + (number - whole).toFixed(2).split('.')[1];
-			} else {
-				formattedVal = options.currencyIndicator + parseFloat(number.toLocaleString()).toFixed(2);
-			}
-			return formattedVal;
+		var integer = Math.floor(number);
+		var decimal = (number - integer).toFixed(2).split('.')[1];
+
+		// This check is necessary because IE renders (25).toLocaleString() as 25.00
+		// while Chrome, Firefox and others return it as 25
+		if (integer.toLocaleString().indexOf(options.currencyDecimalSeparator) < 0) {
+			return options.currencyIndicator + integer.toLocaleString() + options.currencyDecimalSeparator + decimal;
+		} else {
+			return options.currencyIndicator + parseFloat(number.toLocaleString()).toFixed(2);
 		}
-
 	}
 
 	function isInt(number) {
@@ -102,18 +108,10 @@
 				duration: options.duration,
 				easing: options.easing,
 				step: function() {
-					if (options.format === 'currency') {
-						container.text(formatCurrency(this.number, options));
-					} else {
-						container.text(round(this.number, stepDecimals));
-					}
+					container.text(formatNumber(this.number, options, stepDecimals));
 				},
 				complete: function() {
-					if (options.format === 'currency') {
-						container.text(formatCurrency(this.number, options));
-					} else {
-						container.text(round(this.number, endDecimals));
-					}
+					container.text(formatNumber(this.number, options, endDecimals));
 					if (typeof options.callback === "function") {
 						options.callback.call(container);
 					}
