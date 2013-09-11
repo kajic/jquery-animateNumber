@@ -24,13 +24,12 @@
 		floatEndDecimals: 1,
 		format: "default",
 		currencyIndicator: "$",
-		currencyGroupSeparator: ",",
 		currencyDecimalSeparator: ".",
 		callback: function() {}
 	};
 
 	function formatNumber(number, options, decimals) {
-		if (options.format === 'currency') {
+		if (options.format == "currency") {
 			return formatCurrency(number, options);
 		} else {
 			return round(number, decimals);
@@ -42,7 +41,9 @@
 	}
 
 	function formatCurrency(number, options) {
-		if (isNaN(number)) { return; }
+		if (isNaN(number)) {
+			return;
+		}
 
 		var integer = Math.floor(number);
 		var decimal = (number - integer).toFixed(2).split('.')[1];
@@ -66,14 +67,21 @@
 			options = {};
 		}
 		options = $.extend({}, defaults, options);
+		var currencyGroupSeparator = (1000).toLocaleString().charAt(1);
 
 		return this.each(function () {
 			var container = $(this);
 			var initialValue;
+
 			if (options.format === "currency") {
-				$(this).text( $(this).text().replace(options.currencyIndicator, "").replace(options.currencyGroupSeparator, "") );
+				if (container.data("numeric-value")) {
+					initialValue = container.data("numeric-value");
+				} else {
+					initialValue = container.text().replace(options.currencyIndicator, "").replace(currencyGroupSeparator, "");
+				}
+			} else {
+				initialValue = parseFloat(container.text(), 10);
 			}
-			var initialValue = parseFloat($(this).text(), 10);
 			if (round(value, options.floatEndDecimals) == round(initialValue, options.floatEndDecimals)) {
 				return;
 			}
@@ -111,6 +119,7 @@
 					container.text(formatNumber(this.number, options, stepDecimals));
 				},
 				complete: function() {
+					container.data("numeric-value", this.number);
 					container.text(formatNumber(this.number, options, endDecimals));
 					if (typeof options.callback === "function") {
 						options.callback.call(container);
