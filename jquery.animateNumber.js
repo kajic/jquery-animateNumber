@@ -24,7 +24,8 @@
 		floatEndDecimals: 1,
 		format: "default",
 		currencyIndicator: "$",
-		currencyDecimalSeparator: ".",
+		currencyGroupSeparator: (1000).toLocaleString().charAt(1),
+		currencyDecimalSeparator: (1.5).toLocaleString().charAt(1),
 		callback: function() {}
 	};
 
@@ -67,7 +68,6 @@
 			options = {};
 		}
 		options = $.extend({}, defaults, options);
-		var currencyGroupSeparator = (1000).toLocaleString().charAt(1);
 
 		return this.each(function () {
 			var container = $(this);
@@ -77,7 +77,7 @@
 				if (container.data("numeric-value")) {
 					initialValue = container.data("numeric-value");
 				} else {
-					initialValue = container.text().replace(options.currencyIndicator, "").replace(currencyGroupSeparator, "");
+					initialValue = container.text().replace(options.currencyIndicator, "").replace(options.currencyGroupSeparator, "");
 				}
 			} else {
 				initialValue = parseFloat(container.text(), 10);
