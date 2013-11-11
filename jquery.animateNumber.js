@@ -26,7 +26,7 @@
 		currencyIndicator: "$",
 		currencyGroupSeparator: (1000).toLocaleString().charAt(1),
 		currencyDecimalSeparator: (1.5).toLocaleString().charAt(1),
-		callback: function() {}
+		callback: function () {}
 	};
 
 	function formatNumber(number, options, decimals) {
@@ -42,27 +42,31 @@
 	}
 
 	function formatCurrency(number, options) {
-		if (isNaN(number)) {
-			return;
-		}
+		if (isNaN(number)) { return; }
 
-		var integer = Math.floor(number);
-		var decimal = (number - integer).toFixed(2).split('.')[1];
+		var integer     = Math.floor(number);
+		var decimal     = (number - integer).toFixed(options.floatEndDecimals).split('.')[1];
+    var integerPart = integer.toLocaleString();
+    var decimalPart = '';
+
+    if (parseInt(options.floatEndDecimals) > 0) {
+      decimalPart += options.currencyDecimalSeparator + decimal;
+    }
 
 		// This check is necessary because IE renders (25).toLocaleString() as 25.00
 		// while Chrome, Firefox and others return it as 25
-		if (integer.toLocaleString().indexOf(options.currencyDecimalSeparator) < 0) {
-			return options.currencyIndicator + integer.toLocaleString() + options.currencyDecimalSeparator + decimal;
-		} else {
-			return options.currencyIndicator + parseFloat(number.toLocaleString()).toFixed(2);
-		}
+    if (integerPart.indexOf(options.currencyDecimalSeparator) >= 0) {
+      integerPart = integerPart.split('.')[0];
+    }
+
+    return options.currencyIndicator + integerPart + decimalPart;
 	}
 
 	function isInt(number) {
 		return /^-?[\d]+$/.test(number);
 	}
 
-	$.fn.animateNumber = function(value, options, callback) {
+	$.fn.animateNumber = function (value, options, callback) {
 		if (typeof options === "function") {
 			callback = options;
 			options = {};
@@ -129,4 +133,4 @@
 		});
 	};
 
-})( jQuery );
+})(jQuery);
