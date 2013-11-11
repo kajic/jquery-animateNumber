@@ -12,7 +12,7 @@
  * Version: 0.1
  */
 
-(function ($, undefined) {
+(function($, undefined) {
 
 	var defaults = {
 		duration : 5000,
@@ -26,7 +26,7 @@
 		currencyIndicator: "$",
 		currencyGroupSeparator: (1000).toLocaleString().charAt(1),
 		currencyDecimalSeparator: (1.5).toLocaleString().charAt(1),
-		callback: function () {}
+		callback: function() {}
 	};
 
 	function formatNumber(number, options, decimals) {
@@ -46,20 +46,20 @@
 
 		var integer     = Math.floor(number);
 		var decimal     = (number - integer).toFixed(options.floatEndDecimals).split('.')[1];
-    var integerPart = integer.toLocaleString();
-    var decimalPart = '';
+		var integerPart = integer.toLocaleString();
+		var decimalPart = '';
 
-    if (parseInt(options.floatEndDecimals) > 0) {
-      decimalPart += options.currencyDecimalSeparator + decimal;
-    }
+		if (parseInt(options.floatEndDecimals) > 0) {
+  			decimalPart += options.currencyDecimalSeparator + decimal;
+		}
 
 		// This check is necessary because IE renders (25).toLocaleString() as 25.00
 		// while Chrome, Firefox and others return it as 25
-    if (integerPart.indexOf(options.currencyDecimalSeparator) >= 0) {
-      integerPart = integerPart.split('.')[0];
-    }
+		if (integerPart.indexOf(options.currencyDecimalSeparator) >= 0) {
+  			integerPart = integerPart.split('.')[0];
+		}
 
-    return options.currencyIndicator + integerPart + decimalPart;
+		return options.currencyIndicator + integerPart + decimalPart;
 	}
 
 	function isInt(number) {
