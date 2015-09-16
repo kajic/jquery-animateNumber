@@ -50,7 +50,7 @@ $("#numberContainer").animateNumber(Date.now());
 
 **currencyIndicator** (default="$"): The currency symbol to be prepended to the number. Only used if format="currency".
 
-**currencyDecimalSeparator**: The character to be inserted between groups of thousands when displaying currency. The default value is determined by the browser's current locale.
+**currencyGroupSeparator**: The character to be inserted between groups of thousands when displaying currency. The default value is determined by the browser's current locale.
 
 **currencyDecimalSeparator**: The character to be inserted between the integer and decimal values when displaying currency. The default value is determined by the browser's current locale.
 
