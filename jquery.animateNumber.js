@@ -131,14 +131,14 @@
                 step: function() {
                     container.text(formatNumber(this.number, options, stepDecimals));
                     if (typeof options.stepCallback === "function") {
-                        options.stepCallback.call(container, this.number);
+                        options.stepCallback.call(this, container, this.number);
                     }
                 },
                 complete: function() {
                     container.data("numeric-value", this.number);
                     container.text(formatNumber(this.number, options, endDecimals));
                     if (typeof options.callback === "function") {
-                        options.callback.call(container, this.number);
+                        options.callback.call(this, container, this.number);
                     }
                 }
             });
