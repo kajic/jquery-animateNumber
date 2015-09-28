@@ -5,12 +5,13 @@
  *
  * Used on elements that have a number as content (integer or float)
  * to animate the number to a new value over a short period of time.
- *
+ * 
  * Licensed under the MIT License.
  *
  * Date: 2013-01-08
  * Version: 0.1
  */
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -130,8 +131,8 @@
                 easing: options.easing,
                 step: function() {
                     container.text(formatNumber(this.number, options, stepDecimals));
-                    if (typeof options.stepCallback === "function") {
-                        options.stepCallback.call(this, container, this.number);
+                    if(typeof options.stepCallback === 'function') {
+                        options.stepCallback().call(this, container, this.number);
                     }
                 },
                 complete: function() {
