@@ -12,7 +12,20 @@
  * Version: 0.1
  */
 
-(function($, undefined) {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+    }
+}(this, function($, undefined) {
 
 	var defaults = {
 		duration : 5000,
@@ -26,7 +39,8 @@
 		currencyIndicator: "$",
 		currencyGroupSeparator: (1000).toLocaleString().charAt(1),
 		currencyDecimalSeparator: (1.5).toLocaleString().charAt(1),
-		callback: function() {}
+		callback: function() {},
+		stepCallback: function() {}
 	};
 
 	function formatNumber(number, options, decimals) {
@@ -121,16 +135,19 @@
 				easing: options.easing,
 				step: function() {
 					container.text(formatNumber(this.number, options, stepDecimals));
+					if(typeof options.stepCallback === 'function') {
+						options.stepCallback(this, container, this.number);
+					}
 				},
 				complete: function() {
 					container.data("numeric-value", this.number);
 					container.text(formatNumber(this.number, options, endDecimals));
 					if (typeof options.callback === "function") {
-						options.callback.call(container);
+						options.callback.call(this, container, this.number);
 					}
 				}
 			});
 		});
 	};
 
-})(jQuery);
+}));
