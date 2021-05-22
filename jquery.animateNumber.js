@@ -25,7 +25,7 @@
         // Browser globals (root is window)
         root.returnExports = factory();
     }
-}(this, function($, undefined) {
+}(this, function(jQuery, undefined) {
 
 	var defaults = {
 		duration : 5000,
@@ -44,7 +44,9 @@
 	};
 
 	function formatNumber(number, options, decimals) {
-		if (options.format == "currency") {
+        if (typeof options.format === "function") {
+            return options.format(number, options, decimals);
+		} else if (options.format == "currency") {
 			return formatCurrency(number, options);
 		} else {
 			return round(number, decimals);
@@ -64,13 +66,13 @@
 		var decimalPart = '';
 
 		if (parseInt(options.floatEndDecimals) > 0) {
-  			decimalPart += options.currencyDecimalSeparator + decimal;
+            decimalPart += options.currencyDecimalSeparator + decimal;
 		}
 
 		// This check is necessary because IE renders (25).toLocaleString() as 25.00
 		// while Chrome, Firefox and others return it as 25
 		if (integerPart.indexOf(options.currencyDecimalSeparator) >= 0) {
-  			integerPart = integerPart.split('.')[0];
+            integerPart = integerPart.split('.')[0];
 		}
 
 		return options.currencyIndicator + integerPart + decimalPart;
@@ -91,12 +93,10 @@
 			var container = $(this);
 			var initialValue;
 
-			if (options.format === "currency") {
-				if (container.data("numeric-value")) {
-					initialValue = container.data("numeric-value");
-				} else {
-					initialValue = container.text().replace(options.currencyIndicator, "").replace(options.currencyGroupSeparator, "");
-				}
+            if (container.data("numeric-value")) {
+                initialValue = container.data("numeric-value");
+			} else if (options.format === "currency") {
+                initialValue = container.text().replace(options.currencyIndicator, "").replace(options.currencyGroupSeparator, "");
 			} else {
 				initialValue = parseFloat(container.text(), 10);
 			}
